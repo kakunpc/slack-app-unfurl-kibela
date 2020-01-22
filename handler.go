@@ -61,6 +61,19 @@ func (h *EventHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 					log.Printf("[ERROR] can not parse publishedAt (%s): %s", res.Note.PublishedAt, err)
 					return
 				}
+
+				isPrivateFile := true
+				for _, group := range res.Note.Groups {
+					if !group.IsPrivate {
+						isPrivateFile = false;
+					}
+				}
+				
+				if isPrivateFile {
+					log.Printf("Is Private Only Document.");
+					return
+				}
+
 				unfurls[url.URL] = slack.Attachment{
 					AuthorIcon: res.Note.Author.AvatarImage.URL,
 					AuthorLink: res.Note.Author.URL,

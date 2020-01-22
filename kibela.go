@@ -29,6 +29,10 @@ var query = `query ($path: String!) {
     url
     publishedAt
     summary: contentSummaryHtml
+    groups{
+      name
+      isPrivate
+    }
   }
 }`
 
@@ -43,6 +47,7 @@ type Note struct {
 	URL         string `json:"url"`
 	PublishedAt string `json:"publishedAt"`
 	Summary     string `json:"summary"`
+	Groups      []Groups  `json:"groups"`
 }
 
 type Author struct {
@@ -54,6 +59,11 @@ type Author struct {
 
 type AvatarImage struct {
 	URL string `json:"url"`
+}
+
+type Groups struct {
+	Name      string `json:"name"`
+	IsPrivate bool   `json:"isPrivate"`
 }
 
 type KibelaClient struct {
